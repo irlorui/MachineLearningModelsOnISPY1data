@@ -3,8 +3,15 @@ import pandas as pd
 
 def load_data(filepath):
 
+    """
+    Load and organize ISPY1 data from the XLSX file.
+    Arguments:
+        filepath: string. Relative path to the XLSX file with the data.
+    Returns:
+        Dataframe with the ISPY1 data.
+    """
+    
     # Load data
-    #file = './data/I-SPY 1 All Patient Clinical and Outcome Data.xlsx'
     sheet_predictors = 'TCIA Patient Clinical Subset'
     sheet_outcomes = 'TCIA Outcomes Subset'
 
