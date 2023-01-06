@@ -164,7 +164,8 @@ def train_test_classifier(Xdata, Ydata, clf, clf_name, pars, score, outcome,
     X_train, X_test, y_train, y_test = split_data(Xdata, Ydata, oversampling, k)
 
     # perform grid search for hyperparameter tuning
-    grid=  GridSearchCV(clf, param_grid = pars, scoring = score, cv= cv, verbose = 0, n_jobs = -1)
+    grid=  GridSearchCV(clf, param_grid = pars, scoring = score, cv= cv, 
+                        verbose = 0, n_jobs = -1)
 
     # fit
     grid.fit(X_train,y_train)
@@ -175,25 +176,23 @@ def train_test_classifier(Xdata, Ydata, clf, clf_name, pars, score, outcome,
     print('--'*30 + '\n')
 
     # metrics
-    auc, fpr, tpr = binary_classifier_metrics(grid.best_estimator_, X_train, y_train, 
-                                              X_test, y_test, classes, outcome)
+    auc, fpr, tpr = binary_classifier_metrics(grid.best_estimator_, 
+                                              X_test, y_test, classes)
     plt.show()
        
     # output
     return auc, fpr, tpr, grid.best_estimator_
 
 
-def regressor_metrics(regressor, X_train, y_train, X_test, y_test):
+def regressor_metrics(regressor, X_test, y_test):
     
     """
     Performs metrics for regressor. Median absolute error, mean absolute error
     and root mean squared error are printed and returned.
     Arguments:
         regressor: regressor. Trained model to create the metrics with test data.
-        X_train: dataframe. Predictor variables.
-        y_train: dataframe. Output variable with data labels.
-        X_test:
-        y_test:
+        X_test: dataframe. Test data predictor variables.
+        y_test: dataframe. Test data output variable.
     Returns:
         y_pred, y_test: numeric arrays. Contains predicted and real data of
             dependent variable. 
@@ -274,7 +273,7 @@ def train_test_regressor(Xdata, Ydata, regressor, reg_name, pars, score, outcome
 
     
     # metrics
-    y_test, y_pred, median_ae, mae, rmae = regressor_metrics(grid.best_estimator_, X_train, y_train, X_test, y_test)
+    y_test, y_pred, median_ae, mae, rmae = regressor_metrics(grid.best_estimator_, X_test, y_test)
     
     # Plot predicted vs real
     fig, ax = plt.subplots(nrows=1, ncols= 1, figsize=(5,5))
